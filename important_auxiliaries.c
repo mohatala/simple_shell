@@ -12,62 +12,62 @@ void handle_sigint(int sig)
 
 /**
  * get_help - function that retrieves help messages according builtin
- * @datash: data structure (args and input)
+ * @data: data structure (args and input)
  * Return: Return 0
 */
-int get_help(shell_data_t *datash)
+int get_help(shell_data_t *data)
 {
 
-	if (datash->args[1] == 0)
+	if (data->args[1] == 0)
 		print_help_general();
-	else if (_strcmp(datash->args[1], "setenv") == 0)
+	else if (_strcmp(data->args[1], "setenv") == 0)
 		print_help_setenv();
-	else if (_strcmp(datash->args[1], "env") == 0)
+	else if (_strcmp(data->args[1], "env") == 0)
 		print_help_env();
-	else if (_strcmp(datash->args[1], "unsetenv") == 0)
+	else if (_strcmp(data->args[1], "unsetenv") == 0)
 		print_help_unsetenv();
-	else if (_strcmp(datash->args[1], "help") == 0)
+	else if (_strcmp(data->args[1], "help") == 0)
 		print_help();
-	else if (_strcmp(datash->args[1], "exit") == 0)
+	else if (_strcmp(data->args[1], "exit") == 0)
 		print_help_exit();
-	else if (_strcmp(datash->args[1], "cd") == 0)
+	else if (_strcmp(data->args[1], "cd") == 0)
 		print_help_cd();
-	else if (_strcmp(datash->args[1], "alias") == 0)
+	else if (_strcmp(data->args[1], "alias") == 0)
 		print_help_alias();
 	else
-		write(STDERR_FILENO, datash->args[0],
-		      _strlen(datash->args[0]));
+		write(STDERR_FILENO, data->args[0],
+		      _strlen(data->args[0]));
 
-	datash->status = 0;
+	data->status = 0;
 	return (1);
 }
 
 /**
  * get_error_code - calls the error according the builtin, syntax or permission
- * @datash: data structure that contains arguments
+ * @data: data structure that contains arguments
  * @eval: error value
  * Return: error
  */
-int get_error_code(shell_data_t *datash, int eval)
+int get_error_code(shell_data_t *data, int eval)
 {
 	char *error;
 
 	switch (eval)
 	{
 	case -1:
-		error = error_message_env(datash);
+		error = error_message_env(data);
 		break;
 	case 126:
-		error = error_message_path_126(datash);
+		error = error_message_path_126(data);
 		break;
 	case 127:
-		error = error_message_not_found(datash);
+		error = error_message_not_found(data);
 		break;
 	case 2:
-		if (_strcmp("exit", datash->args[0]) == 0)
-			error = error_message_exit_shell(datash);
-		else if (_strcmp("cd", datash->args[0]) == 0)
-			error = error_message_get_cd(datash);
+		if (_strcmp("exit", data->args[0]) == 0)
+			error = error_message_exit_shell(data);
+		else if (_strcmp("cd", data->args[0]) == 0)
+			error = error_message_get_cd(data);
 		break;
 	}
 
@@ -77,7 +77,7 @@ int get_error_code(shell_data_t *datash, int eval)
 		free(error);
 	}
 
-	datash->status = eval;
+	data->status = eval;
 	return (eval);
 }
 
@@ -110,29 +110,29 @@ int (*get_builtin_function(char *cmd))(shell_data_t *)
 
 /**
  * exit_shell_program - exits the shell
- * @datash: data relevant (status and args)
+ * @data: data relevant (status and args)
  * Return: 0 on success.
  */
-int exit_shell_program(shell_data_t *datash)
+int exit_shell_program(shell_data_t *data)
 {
 	unsigned int ustatus;
 	int is_digit;
 	int str_len;
 	int big_number;
 
-	if (datash->args[1] != NULL)
+	if (data->args[1] != NULL)
 	{
-		ustatus = convert_string_to_integer(datash->args[1]);
-		is_digit = _isdigit(datash->args[1]);
-		str_len = _strlen(datash->args[1]);
+		ustatus = convert_string_to_integer(data->args[1]);
+		is_digit = _isdigit(data->args[1]);
+		str_len = _strlen(data->args[1]);
 		big_number = ustatus > (unsigned int)INT_MAX;
 		if (!is_digit || str_len > 10 || big_number)
 		{
-			get_error_code(datash, 2);
-			datash->status = 2;
+			get_error_code(data, 2);
+			data->status = 2;
 			return (1);
 		}
-		datash->status = (ustatus % 256);
+		data->status = (ustatus % 256);
 	}
 	return (0);
 }

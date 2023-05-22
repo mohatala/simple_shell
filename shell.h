@@ -82,7 +82,7 @@ typedef struct replacement_variable_list
 typedef struct builtin_s
 {
 	char *name;
-	int (*f)(shell_data_t *datash);
+	int (*f)(shell_data_t *data);
 } builtin_t;
 
 /* Pointer to an array of pointers to strings called the environment */
@@ -125,24 +125,24 @@ void str_rev(char *s);
 int check_first_char(char *input, int *i);
 int check_rep(char *input, int i);
 int check_error_sep_op(char *input, int i, char last);
-int check_for_syntax_errors(shell_data_t *datash, char *input);
-void print_syntax_error(shell_data_t *datash, char *input, int i, int bool);
+int check_for_syntax_errors(shell_data_t *data, char *input);
+void print_syntax_error(shell_data_t *data, char *input, int i, int bool);
 
 /* shell_loop.c */
 char *remove_comment(char *in);
-void run_shell_loop(shell_data_t *datash);
+void run_shell_loop(shell_data_t *data);
 
 /* split.c */
 char **split_input(char *input);
 char *swap_char(char *input, int bool);
-int split_cmd_op(shell_data_t *datash, char *input);
+int split_cmd_op(shell_data_t *data, char *input);
 void add_nodes(sep_list_t **head_s, command_list_t **head_l,
 			   char *input);
 void get_next(sep_list_t **list_s, command_list_t **list_l,
-			  shell_data_t *datash);
+			  shell_data_t *data);
 
-/* replacement_variables.c */
-char *replace_variable(char *input, shell_data_t *datash);
+/* replace_var.c */
+char *replace_variable(char *input, shell_data_t *data);
 char *get_replaced_input(replacement_variable_t **head, char *input,
 						 char *new_input, int nlen);
 int replace_variables(replacement_variable_t **h, char *in, char *st,
@@ -150,43 +150,41 @@ int replace_variables(replacement_variable_t **h, char *in, char *st,
 void check_for_environment_variables(replacement_variable_t **h, char *in,
 									 shell_data_t *data);
 
-/* get_input_line.c */
+/* input_line.c */
 ssize_t get_input_line(char **lineptr, size_t *n, FILE *stream);
 void read_input_line_from_buffer(char **lineptr, size_t *n, char *buffer,
 								 size_t j);
 
-/* read_input_line.c */
+/* rd_line.c */
 char *read_input_line(int *i_eof);
 
-/* execute_line */
-int execute_input_line(shell_data_t *datash);
+/* exec_line */
+int execute_input_line(shell_data_t *data);
 
-/* execute_commands.c */
+/* exec_cmd.c */
 char *find_command(char *cmd, char **_environ);
-int execute_command(shell_data_t *datash);
+int execute_command(shell_data_t *data);
 int is_current_directory(char *path, int *i);
-int is_command_executable(shell_data_t *datash);
-int check_for_command_errors(char *dir, shell_data_t *datash);
+int is_command_executable(shell_data_t *data);
+int check_for_command_errors(char *dir, shell_data_t *data);
 
-/* environment.c */
-int print_environment_variables(shell_data_t *datash);
+/* env.c */
+int print_environment_variables(shell_data_t *data);
 char *get_environment_variable(const char *name, char **_environ);
 
-/* environment1.c */
-int _setenv(shell_data_t *datash);
-int _unsetenv(shell_data_t *datash);
+/* envstdlib.c */
+int _setenv(shell_data_t *data);
+int _unsetenv(shell_data_t *data);
 char *copy_info(char *name, char *value);
-void set_env(char *name, char *value, shell_data_t *datash);
+void set_env(char *name, char *value, shell_data_t *data);
 int compare_environment_variable_name(const char *nenv, const char *name);
 
-/* change_directory.c */
-void change_to_directory(shell_data_t *datash);
-void change_to_dot_directory(shell_data_t *datash);
-void change_to_home_directory(shell_data_t *datash);
-void change_to_previous_directory(shell_data_t *datash);
-
-/* change_directory_shell.c */
-int change_directory_shell(shell_data_t *datash);
+/* chadir.c */
+void change_to_directory(shell_data_t *data);
+void change_to_dot_directory(shell_data_t *data);
+void change_to_home_directory(shell_data_t *data);
+void change_to_previous_directory(shell_data_t *data);
+int change_directory_shell(shell_data_t *data);
 
 /* standard_library.c */
 int get_integer_length(int n);
@@ -194,14 +192,14 @@ int convert_string_to_integer(char *s);
 char *convert_integer_to_string(int n);
 
 /* error_messages.c */
-char *error_message_get_cd(shell_data_t *datash);
-char *error_message_not_found(shell_data_t *datash);
-char *error_message_exit_shell(shell_data_t *datash);
+char *error_message_get_cd(shell_data_t *data);
+char *error_message_not_found(shell_data_t *data);
+char *error_message_exit_shell(shell_data_t *data);
 char *cd_error_message(shell_data_t *, char *, char *, char *);
 
 /* error_messages1.c */
-char *error_message_env(shell_data_t *datash);
-char *error_message_path_126(shell_data_t *datash);
+char *error_message_env(shell_data_t *data);
+char *error_message_path_126(shell_data_t *data);
 
 /* print_help.c */
 void print_help_env(void);
@@ -219,15 +217,15 @@ void print_help_alias(void);
 void handle_sigint(int sig);
 
 /* get_help.c */
-int get_help(shell_data_t *datash);
+int get_help(shell_data_t *data);
 
 /* get_error_code.c */
-int get_error_code(shell_data_t *datash, int eval);
+int get_error_code(shell_data_t *data, int eval);
 
 /* get_builtin_function */
-int (*get_builtin_function(char *cmd))(shell_data_t *datash);
+int (*get_builtin_function(char *cmd))(shell_data_t *data);
 
 /* exit_command.c */
-int exit_shell_program(shell_data_t *datash);
+int exit_shell_program(shell_data_t *data);
 
 #endif

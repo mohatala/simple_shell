@@ -101,20 +101,20 @@ char *read_input_line(int *i_eof)
 
 /**
  * execute_input_line - finds builtins and commands
- * @datash: data relevant (args)
+ * @data: data relevant (args)
  * Return: 1 on success.
  */
-int execute_input_line(shell_data_t *datash)
+int execute_input_line(shell_data_t *data)
 {
-	int (*builtin)(shell_data_t *datash);
+	int (*builtin)(shell_data_t *data);
 
-	if (datash->args[0] == NULL)
+	if (data->args[0] == NULL)
 		return (1);
 
-	builtin = get_builtin_function(datash->args[0]);
+	builtin = get_builtin_function(data->args[0]);
 
 	if (builtin != NULL)
-		return (builtin(datash));
+		return (builtin(data));
 
-	return (execute_command(datash));
+	return (execute_command(data));
 }

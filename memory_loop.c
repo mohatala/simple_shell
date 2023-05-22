@@ -139,9 +139,9 @@ char *remove_comment(char *in)
 
 /**
  * run_shell_loop - this function runs the shell loop
- * @datash: relevant data (av, input, args)
+ * @data: relevant data (av, input, args)
  */
-void run_shell_loop(shell_data_t *datash)
+void run_shell_loop(shell_data_t *data)
 {
 	char *input;
 	int loop = 1, i_eof;
@@ -156,14 +156,14 @@ void run_shell_loop(shell_data_t *datash)
 			if (input == NULL)
 				continue;
 
-			if (check_for_syntax_errors(datash, input))
+			if (check_for_syntax_errors(data, input))
 			{
-				datash->status = 2;
+				data->status = 2;
 				continue;
 			}
-			input = replace_variable(input, datash);
-			loop = split_commands_and_operators(datash, input);
-			datash->counter++;
+			input = replace_variable(input, data);
+			loop = split_commands_and_operators(data, input);
+			data->counter++;
 		}
 		else
 		{

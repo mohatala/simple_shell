@@ -82,7 +82,7 @@ void add_nodes(
  * @data: data structure pointer
  */
 void get_next(
-		sep_list_t **list_sep, command_list_t **list_line, shell_data_t *datash)
+		sep_list_t **list_sep, command_list_t **list_line, shell_data_t *data)
 {
 	int loop_sep = 1;
 	sep_list_t *ls_s = *list_sep;
@@ -90,7 +90,7 @@ void get_next(
 
 	while (ls_s != NULL && loop_sep)
 	{
-		if (datash->status == 0)
+		if (data->status == 0)
 		{
 			if (ls_s->separator == '&' || ls_s->separator == ';')
 				loop_sep = 0;
@@ -114,7 +114,7 @@ void get_next(
 /**
  * split_cmd_op - splits command lines according to
  *				the separators ;, | and &, and executes them
- * @datash: data structure
+ * @data: data structure
  * @input: input string
  * Return: 0 to exit, 1 to continue
  */

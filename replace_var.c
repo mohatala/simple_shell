@@ -130,19 +130,19 @@ char *get_replaced_input(
 /**
  * replace_variable - this function calls functions to replace string into vars
  * @input: input string
- * @datash: data structure
+ * @data: data structure
  * Return: replaced string
  */
-char *replace_variable(char *input, shell_data_t *datash)
+char *replace_variable(char *input, shell_data_t *data)
 {
 	replacement_variable_t *head, *indx;
 	char *status, *new_input;
 	int olen, nlen;
 
-	status = convert_integer_to_string(datash->status);
+	status = convert_integer_to_string(data->status);
 	head = NULL;
 
-	olen = replace_variables(&head, input, status, datash);
+	olen = replace_variables(&head, input, status, data);
 
 	if (head == NULL)
 	{

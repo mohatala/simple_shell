@@ -74,16 +74,16 @@ char *find_command(char *cmd, char **_environ)
 
 /**
  * is_command_executable - this function determines if a command is executable
- * @datash: data structure
+ * @data: data structure
  * Return: 0 if is not an executable, other number if it does
  */
-int is_command_executable(shell_data_t *datash)
+int is_command_executable(shell_data_t *data)
 {
 	struct stat st;
 	int i;
 	char *input;
 
-	input = datash->args[0];
+	input = data->args[0];
 	for (i = 0; input[i]; i++)
 	{
 		if (input[i] == '.')
@@ -112,7 +112,7 @@ int is_command_executable(shell_data_t *datash)
 	{
 		return (i);
 	}
-	get_error_code(datash, 127);
+	get_error_code(data, 127);
 	return (-1);
 }
 
@@ -120,22 +120,22 @@ int is_command_executable(shell_data_t *datash)
  * check_for_command_errors - this function verifies if a user
  *				has permissions to access
  * @dir: destination directory
- * @datash: data structure
+ * @data: data structure
  * Return: 1 if there is an error, 0 if not
  */
-int check_for_command_errors(char *dir, shell_data_t *datash)
+int check_for_command_errors(char *dir, shell_data_t *data)
 {
 	if (dir == NULL)
 	{
-		get_error_code(datash, 127);
+		get_error_code(data, 127);
 		return (1);
 	}
 
-	if (_strcmp(datash->args[0], dir) != 0)
+	if (_strcmp(data->args[0], dir) != 0)
 	{
 		if (access(dir, X_OK) == -1)
 		{
-			get_error_code(datash, 126);
+			get_error_code(data, 126);
 			free(dir);
 			return (1);
 		}
@@ -143,9 +143,9 @@ int check_for_command_errors(char *dir, shell_data_t *datash)
 	}
 	else
 	{
-		if (access(datash->args[0], X_OK) == -1)
+		if (access(data->args[0], X_OK) == -1)
 		{
-			get_error_code(datash, 126);
+			get_error_code(data, 126);
 			return (1);
 		}
 	}
@@ -155,10 +155,10 @@ int check_for_command_errors(char *dir, shell_data_t *datash)
 
 /**
  * execute_command - this function executes command lines
- * @datash: data relevant (args and input)
+ * @data: data relevant (args and input)
  * Return: 1 on success.
  */
-int execute_command(shell_data_t *datash)
+int execute_command(shell_data_t *data)
 {
 	pid_t pd;
 	pid_t wpd;
@@ -167,13 +167,13 @@ int execute_command(shell_data_t *datash)
 	char *dir;
 	(void) wpd;
 
-	exec = is_command_executable(datash);
+	exec = is_command_executable(data);
 	if (exec == -1)
 		return (1);
 	if (exec == 0)
 	{
-		dir = find_command(datash->args[0], datash->_environ);
-		if (check_for_command_errors(dir, datash) == 1)
+		dir = find_command(data->args[0], data->_environ);
+		if (check_for_command_errors(dir, data) == 1)
 			return (1);
 	}
 
@@ -181,14 +181,14 @@ int execute_command(shell_data_t *datash)
 	if (pd == 0)
 	{
 		if (exec == 0)
-			dir = find_command(datash->args[0], datash->_environ);
+			dir = find_command(data->args[0], data->_environ);
 		else
-			dir = datash->args[0];
-		execve(dir + exec, datash->args, datash->_environ);
+			dir = data->args[0];
+		execve(dir + exec, data->args, data->_environ);
 	}
 	else if (pd < 0)
 	{
-		perror(datash->av[0]);
+		perror(data->av[0]);
 		return (1);
 	}
 	else
@@ -198,6 +198,6 @@ int execute_command(shell_data_t *datash)
 		} while (!WIFEXITED(state) && !WIFSIGNALED(state));
 	}
 
-	datash->status = state / 256;
+	data->status = state / 256;
 	return (1);
 }
