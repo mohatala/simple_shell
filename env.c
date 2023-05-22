@@ -60,23 +60,23 @@ void set_env(char *name, char *value, shell_data_t *data)
 	int i;
 	char *var_env, *name_env;
 
-	for (i = 0; data->_environ[i]; i++)
+	for (i = 0; data->_env[i]; i++)
 	{
-		var_env = _strdup(data->_environ[i]);
-		name_env = _strtok(var_env, "=");
+		var_env = _strdup(data->_env[i]);
+		name_env = _str_del(var_env, "=");
 		if (_strcmp(name_env, name) == 0)
 		{
-			free(data->_environ[i]);
-			data->_environ[i] = copy_info(name_env, value);
+			free(data->_env[i]);
+			data->_env[i] = copy_info(name_env, value);
 			free(var_env);
 			return;
 		}
 		free(var_env);
 	}
 
-	data->_environ = _reallocdp(data->_environ, i, sizeof(char *) * (i + 2));
-	data->_environ[i] = copy_info(name, value);
-	data->_environ[i + 1] = NULL;
+	data->_env = _reallocdp(data->_env, i, sizeof(char *) * (i + 2));
+	data->_env[i] = copy_info(name, value);
+	data->_env[i + 1] = NULL;
 }
 
 /**
@@ -116,10 +116,10 @@ int _unsetenv(shell_data_t *data)
 		return (1);
 	}
 	k = -1;
-	for (i = 0; data->_environ[i]; i++)
+	for (i = 0; data->_env[i]; i++)
 	{
-		var_env = _strdup(data->_environ[i]);
-		name_env = _strtok(var_env, "=");
+		var_env = _strdup(data->_env[i]);
+		name_env = _str_del(var_env, "=");
 		if (_strcmp(name_env, data->args[1]) == 0)
 		{
 			k = i;
@@ -132,17 +132,17 @@ int _unsetenv(shell_data_t *data)
 		return (1);
 	}
 	realloc_environ = malloc(sizeof(char *) * (i));
-	for (i = j = 0; data->_environ[i]; i++)
+	for (i = j = 0; data->_env[i]; i++)
 	{
 		if (i != k)
 		{
-			realloc_environ[j] = data->_environ[i];
+			realloc_environ[j] = data->_env[i];
 			j++;
 		}
 	}
 	realloc_environ[j] = NULL;
-	free(data->_environ[k]);
-	free(data->_environ);
-	data->_environ = realloc_environ;
+	free(data->_env[k]);
+	free(data->_env);
+	data->_env = realloc_environ;
 	return (1);
 }

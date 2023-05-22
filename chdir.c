@@ -7,7 +7,7 @@
 void change_to_dot_directory(shell_data_t *data)
 {
 	char pwd[PATH_MAX];
-	char *dir, *cp_pwd, *cp_strtok_pwd;
+	char *dir, *cp_pwd, *cp_str_del_pwd;
 
 	getcwd(pwd, sizeof(pwd));
 	cp_pwd = _strdup(pwd);
@@ -24,20 +24,20 @@ void change_to_dot_directory(shell_data_t *data)
 		free(cp_pwd);
 		return;
 	}
-	cp_strtok_pwd = cp_pwd;
-	reverse_string(cp_strtok_pwd);
-	cp_strtok_pwd = _strtok(cp_strtok_pwd, "/");
-	if (cp_strtok_pwd != NULL)
+	cp_str_del_pwd = cp_pwd;
+	str_rev(cp_str_del_pwd);
+	cp_str_del_pwd = _str_del(cp_str_del_pwd, "/");
+	if (cp_str_del_pwd != NULL)
 	{
-		cp_strtok_pwd = _strtok(NULL, "\0");
+		cp_str_del_pwd = _str_del(NULL, "\0");
 
-		if (cp_strtok_pwd != NULL)
-			reverse_string(cp_strtok_pwd);
+		if (cp_str_del_pwd != NULL)
+			str_rev(cp_str_del_pwd);
 	}
-	if (cp_strtok_pwd != NULL)
+	if (cp_str_del_pwd != NULL)
 	{
-		chdir(cp_strtok_pwd);
-		set_env("PWD", cp_strtok_pwd, data);
+		chdir(cp_str_del_pwd);
+		set_env("PWD", cp_str_del_pwd, data);
 	}
 	else
 	{
@@ -93,7 +93,7 @@ void change_to_previous_directory(shell_data_t *data)
 	getcwd(pwd, sizeof(pwd));
 	cp_pwd = _strdup(pwd);
 
-	p_oldpwd = get_environment_variable("OLDPWD", data->_environ);
+	p_oldpwd = get_env("OLDPWD", data->_env);
 
 	if (p_oldpwd == NULL)
 		cp_oldpwd = cp_pwd;
@@ -107,7 +107,7 @@ void change_to_previous_directory(shell_data_t *data)
 	else
 		set_env("PWD", cp_oldpwd, data);
 
-	p_pwd = get_environment_variable("PWD", data->_environ);
+	p_pwd = get_env("PWD", data->_env);
 
 	write(STDOUT_FILENO, p_pwd, _strlen(p_pwd));
 	write(STDOUT_FILENO, "\n", 1);
@@ -133,7 +133,7 @@ void change_to_home_directory(shell_data_t *data)
 	getcwd(pwd, sizeof(pwd));
 	p_pwd = _strdup(pwd);
 
-	home = get_environment_variable("HOME", data->_environ);
+	home = get_env("HOME", data->_env);
 
 	if (home == NULL)
 	{

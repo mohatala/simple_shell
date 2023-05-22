@@ -35,12 +35,12 @@ char *find_command(char *cmd, char **_environ)
 	int len_dir, len_cmd, i;
 	struct stat st;
 
-	path = get_environment_variable("PATH", _environ);
+	path = get_env("PATH", _environ);
 	if (path)
 	{
 		ptr_path = _strdup(path);
 		len_cmd = _strlen(cmd);
-		token_path = _strtok(ptr_path, ":");
+		token_path = _str_del(ptr_path, ":");
 		i = 0;
 		while (token_path != NULL)
 		{
@@ -59,7 +59,7 @@ char *find_command(char *cmd, char **_environ)
 				return (dir);
 			}
 			free(dir);
-			token_path = _strtok(NULL, ":");
+			token_path = _str_del(NULL, ":");
 		}
 		free(ptr_path);
 		if (stat(cmd, &st) == 0)
@@ -172,7 +172,7 @@ int execute_command(shell_data_t *data)
 		return (1);
 	if (exec == 0)
 	{
-		dir = find_command(data->args[0], data->_environ);
+		dir = find_command(data->args[0], data->_env);
 		if (check_for_command_errors(dir, data) == 1)
 			return (1);
 	}
@@ -181,10 +181,10 @@ int execute_command(shell_data_t *data)
 	if (pd == 0)
 	{
 		if (exec == 0)
-			dir = find_command(data->args[0], data->_environ);
+			dir = find_command(data->args[0], data->_env);
 		else
 			dir = data->args[0];
-		execve(dir + exec, data->args, data->_environ);
+		execve(dir + exec, data->args, data->_env);
 	}
 	else if (pd < 0)
 	{

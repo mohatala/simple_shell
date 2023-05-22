@@ -1,34 +1,34 @@
 #include "shell.h"
 
 /**
- * get_environment_variable - this fucntion gets an environment variable
+ * get_env - this fucntion gets an environment variable
  * @name: name of the environment variable
- * @_environ: environment variable
+ * @_env: environment variable
  * Return: value of the environment variable if is found.
  *		In other case, returns NULL.
  */
-char *get_environment_variable(const char *name, char **_environ)
+char *get_env(const char *name, char **_env)
 {
 	char *ptr_env;
-	int i, mov;
+	int i, k;
 
 	/* Initialize ptr_env value */
 	ptr_env = NULL;
-	mov = 0;
+	k = 0;
 	/* Compare all environment variables */
 	/* environ is declared in the header file */
-	for (i = 0; _environ[i]; i++)
+	for (i = 0; _env[i]; i++)
 	{
 		/* If name and env are equal */
-		mov = compare_environment_variable_name(_environ[i], name);
-		if (mov)
+		k = compare_environment_variable_name(_env[i], name);
+		if (k)
 		{
-			ptr_env = _environ[i];
+			ptr_env = _env[i];
 			break;
 		}
 	}
 
-	return (ptr_env + mov);
+	return (ptr_env + k);
 }
 
 /**
@@ -40,13 +40,13 @@ int print_environment_variables(shell_data_t *data)
 {
 	int i, j;
 
-	for (i = 0; data->_environ[i]; i++)
+	for (i = 0; data->_env[i]; i++)
 	{
 
-		for (j = 0; data->_environ[i][j]; j++)
+		for (j = 0; data->_env[i][j]; j++)
 			;
 
-		write(STDOUT_FILENO, data->_environ[i], j);
+		write(STDOUT_FILENO, data->_env[i], j);
 		write(STDOUT_FILENO, "\n", 1);
 	}
 	data->status = 0;
@@ -109,13 +109,12 @@ char *convert_integer_to_string(int n)
 	}
 
 	lenght--;
-	do {
+	do
+	{
 		*(buffer + lenght) = (n1 % 10) + '0';
 		n1 = n1 / 10;
 		lenght--;
-	}
-	while (n1 > 0)
-		;
+	} while (n1 > 0);
 	return (buffer);
 }
 

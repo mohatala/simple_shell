@@ -8,12 +8,12 @@ void free_data(shell_data_t *data)
 {
 	unsigned int i;
 
-	for (i = 0; data->_environ[i]; i++)
+	for (i = 0; data->_env[i]; i++)
 	{
-		free(data->_environ[i]);
+		free(data->_env[i]);
 	}
 
-	free(data->_environ);
+	free(data->_env);
 	free(data->pid);
 }
 
@@ -35,14 +35,14 @@ void set_data(shell_data_t *data, char **av)
 	for (i = 0; environ[i]; i++)
 		;
 
-	data->_environ = malloc(sizeof(char *) * (i + 1));
+	data->_env = malloc(sizeof(char *) * (i + 1));
 
 	for (i = 0; environ[i]; i++)
 	{
-		data->_environ[i] = _strdup(environ[i]);
+		data->_env[i] = _strdup(environ[i]);
 	}
 
-	data->_environ[i] = NULL;
+	data->_env[i] = NULL;
 	data->pid = convert_integer_to_string(getpid());
 }
 

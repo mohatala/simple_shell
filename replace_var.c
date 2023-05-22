@@ -11,7 +11,7 @@ void check_for_environment_variables(
 		replacement_variable_t **h, char *in, shell_data_t *data)
 {
 	int row, chr, j, lval;
-	char **_envr = data->_environ;
+	char **_envr = data->_env;
 
 	for (row = 0; _envr[row]; row++)
 	{

@@ -109,11 +109,11 @@ char **_reallocdp(char **ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * remove_comment - this function removes comments from the input
+ * rem_cmnt - this function removes comments from the input
  * @in: input string
  * Return: input without comments
  */
-char *remove_comment(char *in)
+char *rem_cmnt(char *in)
 {
 	int i, j;
 	char *out = in;
@@ -148,11 +148,11 @@ void run_shell_loop(shell_data_t *data)
 
 	while (loop)
 	{
-		write(STDIN_FILENO, ":p ", 4);
+		write(STDIN_FILENO, "~ bash: ", 8);
 		input = read_input_line(&i_eof);
 		if (i_eof != -1)
 		{
-			input = remove_comment(input);
+			input = rem_cmnt(input);
 			if (input == NULL)
 				continue;
 
@@ -162,7 +162,7 @@ void run_shell_loop(shell_data_t *data)
 				continue;
 			}
 			input = replace_variable(input, data);
-			loop = split_commands_and_operators(data, input);
+			loop = split_cmd_op(data, input);
 			data->counter++;
 		}
 		else

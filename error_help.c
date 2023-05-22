@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * error_message_env - error message for env in get_environment_variable.
+ * error_message_env - error message for env in get_env.
  * @data: data relevant (counter, arguments)
  * Return: error message.
  */

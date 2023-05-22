@@ -24,7 +24,7 @@
  * @av: ARGument Vector
  * @input: command line written by the user
  * @args: arguments of the command line
- * @_environ: environment variable
+ * @_env: environment variable
  */
 typedef struct shell_data
 {
@@ -34,7 +34,7 @@ typedef struct shell_data
 	char **av;
 	char *input;
 	char **args;
-	char **_environ;
+	char **_env;
 } shell_data_t;
 
 /**
@@ -121,7 +121,6 @@ char *_strdup(const char *s);
 /* string_fun2.c */
 void str_rev(char *s);
 
-/* check_syntax_error.c */
 int check_first_char(char *input, int *i);
 int check_rep(char *input, int i);
 int check_error_sep_op(char *input, int i, char last);
@@ -129,14 +128,14 @@ int check_for_syntax_errors(shell_data_t *data, char *input);
 void print_syntax_error(shell_data_t *data, char *input, int i, int bool);
 
 /* shell_loop.c */
-char *remove_comment(char *in);
+char *rem_cmnt(char *in);
 void run_shell_loop(shell_data_t *data);
 
 /* split.c */
 char **split_input(char *input);
 char *swap_char(char *input, int bool);
 int split_cmd_op(shell_data_t *data, char *input);
-void add_nodes(sep_list_t **head_s, command_list_t **head_l,
+void des(sep_list_t **head_s, command_list_t **head_l,
 			   char *input);
 void get_next(sep_list_t **list_s, command_list_t **list_l,
 			  shell_data_t *data);
@@ -162,7 +161,7 @@ char *read_input_line(int *i_eof);
 int execute_input_line(shell_data_t *data);
 
 /* exec_cmd.c */
-char *find_command(char *cmd, char **_environ);
+char *find_command(char *cmd, char **_env);
 int execute_command(shell_data_t *data);
 int is_current_directory(char *path, int *i);
 int is_command_executable(shell_data_t *data);
@@ -170,7 +169,7 @@ int check_for_command_errors(char *dir, shell_data_t *data);
 
 /* env.c */
 int print_environment_variables(shell_data_t *data);
-char *get_environment_variable(const char *name, char **_environ);
+char *get_env(const char *name, char **_env);
 
 /* envstdlib.c */
 int _setenv(shell_data_t *data);
@@ -213,16 +212,10 @@ void print_help(void);
 void print_help_cd(void);
 void print_help_alias(void);
 
-/* get_sigint.c */
+/*builtins.c*/
 void handle_sigint(int sig);
-
-/* get_help.c */
 int get_help(shell_data_t *data);
-
-/* get_error_code.c */
 int get_error_code(shell_data_t *data, int eval);
-
-/* get_builtin_function */
 int (*get_builtin_function(char *cmd))(shell_data_t *data);
 
 /* exit_command.c */
