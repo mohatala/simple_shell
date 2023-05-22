@@ -19,7 +19,7 @@ char *_strdup(const char *s)
 /**
  * _strlen - this function returns the lenght of a string.
  * @s: string parameter to be passed
- * Return: returns the length of the string
+ * Return: return the length of the string
  */
 int _strlen(const char *s)
 {

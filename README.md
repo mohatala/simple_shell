@@ -72,6 +72,6 @@ ls -la
 
 ## Contributors :
 * [**OUMAYMA MAZOZ**](https://github.com/omazoz)
-* [**mohammed talaini*](https://github.com/mohatala )
+* [**TALAINI Mohammed**](https://github.com/mohatala )
 
 ## Alx-Africa .
