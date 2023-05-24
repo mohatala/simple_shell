@@ -44,12 +44,12 @@ char *swap_char(char *input, int bool)
 
 /**
  * add_nodes - this function adds separators and cmd lines in the lists
- * @head_s: pointer to head node of separator list
+ * @head_s: pointer to head node of sep list
  * @head_l: pointer to head node of command lines list
  * @input: input string
  */
 void add_nodes(
-		sep_list_t **head_s, command_list_t **head_l, char *input)
+		sep_list_t **head_s, cmd_lst_t **head_l, char *input)
 {
 	int i;
 	char *line;
@@ -77,31 +77,31 @@ void add_nodes(
 
 /**
  * get_next - this function moves to the next stored command line
- * @list_sep: separator list
+ * @list_sep: sep list
  * @list_line: command line list
  * @data: data structure pointer
  */
 void get_next(
-		sep_list_t **list_sep, command_list_t **list_line, shell_data_t *data)
+		sep_list_t **list_sep, cmd_lst_t **list_line, data_sh *data)
 {
 	int loop_sep = 1;
 	sep_list_t *ls_s = *list_sep;
-	command_list_t *ls_l = *list_line;
+	cmd_lst_t *ls_l = *list_line;
 
 	while (ls_s != NULL && loop_sep)
 	{
 		if (data->status == 0)
 		{
-			if (ls_s->separator == '&' || ls_s->separator == ';')
+			if (ls_s->sep == '&' || ls_s->sep == ';')
 				loop_sep = 0;
-			if (ls_s->separator == '|')
+			if (ls_s->sep == '|')
 				ls_l = ls_l->next, ls_s = ls_s->next;
 		}
 		else
 		{
-			if (ls_s->separator == '|' || ls_s->separator == ';')
+			if (ls_s->sep == '|' || ls_s->sep == ';')
 				loop_sep = 0;
-			if (ls_s->separator == '&')
+			if (ls_s->sep == '&')
 				ls_l = ls_l->next, ls_s = ls_s->next;
 		}
 		if (ls_s != NULL && !loop_sep)
@@ -118,11 +118,11 @@ void get_next(
  * @input: input string
  * Return: 0 to exit, 1 to continue
  */
-int split_cmd_op(shell_data_t *data, char *input)
+int split_cmd_op(data_sh *data, char *input)
 {
 	int loop;
 	sep_list_t *list_s, *head_s = NULL;
-	command_list_t *list_l, *head_l = NULL;
+	cmd_lst_t *list_l, *head_l = NULL;
 
 	add_nodes(&head_s, &head_l, input);
 

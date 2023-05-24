@@ -1,14 +1,14 @@
 #include "shell.h"
 
 /**
- * compare_environment_variable_name - this function compares
+ * comp_env_varname - this function compares
  *					environment variables names
  * with the name passed.
  * @nenv: name of the environment variable
  * @name: name passed
  * Return: 0 if are not equal. Another value if they are.
  */
-int compare_environment_variable_name(const char *nenv, const char *name)
+int comp_env_varname(const char *nenv, const char *name)
 {
 	int i;
 
@@ -55,7 +55,7 @@ char *copy_info(char *name, char *value)
  * @data: data structure (environ)
  * Return: no return
  */
-void set_env(char *name, char *value, shell_data_t *data)
+void set_env(char *name, char *value, data_sh *data)
 {
 	int i;
 	char *var_env, *name_env;
@@ -85,7 +85,7 @@ void set_env(char *name, char *value, shell_data_t *data)
  * @data: data relevant (env name and env value)
  * Return: 1 on success.
  */
-int _setenv(shell_data_t *data)
+int _setenv(data_sh *data)
 {
 
 	if (data->args[1] == NULL || data->args[2] == NULL)
@@ -100,13 +100,13 @@ int _setenv(shell_data_t *data)
 }
 
 /**
- * _unsetenv - deletes a environment variable
+ * unset_env - deletes a environment variable
  * @data: data relevant (env name)
  * Return: 1 on success.
  */
-int _unsetenv(shell_data_t *data)
+int unset_env(data_sh *data)
 {
-	char **realloc_environ;
+	char **realloc_env;
 	char *var_env, *name_env;
 	int i, j, k;
 
@@ -131,18 +131,18 @@ int _unsetenv(shell_data_t *data)
 		get_error_code(data, -1);
 		return (1);
 	}
-	realloc_environ = malloc(sizeof(char *) * (i));
+	realloc_env = malloc(sizeof(char *) * (i));
 	for (i = j = 0; data->_env[i]; i++)
 	{
 		if (i != k)
 		{
-			realloc_environ[j] = data->_env[i];
+			realloc_env[j] = data->_env[i];
 			j++;
 		}
 	}
-	realloc_environ[j] = NULL;
+	realloc_env[j] = NULL;
 	free(data->_env[k]);
 	free(data->_env);
-	data->_env = realloc_environ;
+	data->_env = realloc_env;
 	return (1);
 }

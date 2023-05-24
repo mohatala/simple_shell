@@ -4,7 +4,7 @@
  * free_data - frees data structure
  * @data: data structure
  */
-void free_data(shell_data_t *data)
+void free_data(data_sh *data)
 {
 	unsigned int i;
 
@@ -22,7 +22,7 @@ void free_data(shell_data_t *data)
  * @data: data structure
  * @av: argument vector
  */
-void set_data(shell_data_t *data, char **av)
+void set_data(data_sh *data, char **av)
 {
 	unsigned int i;
 
@@ -43,7 +43,7 @@ void set_data(shell_data_t *data, char **av)
 	}
 
 	data->_env[i] = NULL;
-	data->pid = convert_integer_to_string(getpid());
+	data->pid = int_to_string(getpid());
 }
 
 /**
@@ -54,7 +54,7 @@ void set_data(shell_data_t *data, char **av)
  */
 int main(int ac, char **av)
 {
-	shell_data_t data;
+	data_sh data;
 	(void) ac;
 
 	signal(SIGINT, handle_sigint);

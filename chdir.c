@@ -1,10 +1,10 @@
 #include "shell.h"
 
 /**
- * change_to_dot_directory - this function changes to the parent directory
+ * change_to_dot_dir - this function changes to the parent directory
  * @data: data relevant (environ)
  */
-void change_to_dot_directory(shell_data_t *data)
+void change_to_dot_dir(data_sh *data)
 {
 	char pwd[PATH_MAX];
 	char *dir, *cp_pwd, *cp_str_del_pwd;
@@ -49,10 +49,10 @@ void change_to_dot_directory(shell_data_t *data)
 }
 
 /**
- * change_to_directory - this function changes to a directory given by the user
+ * change_to_dir - this function changes to a directory given by the user
  * @data: data relevant (directories)
  */
-void change_to_directory(shell_data_t *data)
+void change_to_dir(data_sh *data)
 {
 	char pwd[PATH_MAX];
 	char *dir, *cp_pwd, *cp_dir;
@@ -81,11 +81,11 @@ void change_to_directory(shell_data_t *data)
 }
 
 /**
- * change_to_previous_directory - this function changes
+ * change_to_ols_dir - this function changes
  *					to the previous directory
  * @data: data relevant (environ)
  */
-void change_to_previous_directory(shell_data_t *data)
+void change_to_ols_dir(data_sh *data)
 {
 	char pwd[PATH_MAX];
 	char *p_pwd, *p_oldpwd, *cp_pwd, *cp_oldpwd;
@@ -122,10 +122,10 @@ void change_to_previous_directory(shell_data_t *data)
 }
 
 /**
- * change_to_home_directory - this function changes to home directory
+ * change_to_home_dir - this function changes to home directory
  * @data: data relevant (environ)
  */
-void change_to_home_directory(shell_data_t *data)
+void change_to_home_dir(data_sh *data)
 {
 	char *p_pwd, *home;
 	char pwd[PATH_MAX];
@@ -156,11 +156,11 @@ void change_to_home_directory(shell_data_t *data)
 }
 
 /**
- * change_directory_shell - this function changes current directory
+ * change_dir_sh - this function changes current directory
  * @data: data relevant
  * Return: 1 on success
  */
-int change_directory_shell(shell_data_t *data)
+int change_dir_sh(data_sh *data)
 {
 	char *dir;
 	int ishome, ishome2, isddash;
@@ -176,23 +176,23 @@ int change_directory_shell(shell_data_t *data)
 
 	if (dir == NULL || !ishome || !ishome2 || !isddash)
 	{
-		change_to_home_directory(data);
+		change_to_home_dir(data);
 		return (1);
 	}
 
 	if (_strcmp("-", dir) == 0)
 	{
-		change_to_previous_directory(data);
+		change_to_ols_dir(data);
 		return (1);
 	}
 
 	if (_strcmp(".", dir) == 0 || _strcmp("..", dir) == 0)
 	{
-		change_to_dot_directory(data);
+		change_to_dot_dir(data);
 		return (1);
 	}
 
-	change_to_directory(data);
+	change_to_dir(data);
 
 	return (1);
 }

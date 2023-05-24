@@ -35,16 +35,16 @@ typedef struct shell_data
 	char *input;
 	char **args;
 	char **_env;
-} shell_data_t;
+} data_sh;
 
 /**
  * struct separator_list_s - single linked list
- * @separator: ; | &
+ * @sep: ; | &
  * @next: next node
  */
 typedef struct separator_list_s
 {
-	char separator;
+	char sep;
 	struct separator_list_s *next;
 } sep_list_t;
 
@@ -57,22 +57,22 @@ typedef struct command_list_s
 {
 	char *line;
 	struct command_list_s *next;
-} command_list_t;
+} cmd_lst_t;
 
 /**
- * struct replacement_variable_list - single linked list
+ * struct replace_var - single linked list
  * @val: variable value
  * @len_var: variable length
  * @len_val: value length
  * @next: next node
  */
-typedef struct replacement_variable_list
+typedef struct replace_var
 {
 	char *val;
 	int len_var;
 	int len_val;
-	struct replacement_variable_list *next;
-} replacement_variable_t;
+	struct replace_var *next;
+} replace_var_t;
 
 /**
  * struct builtin_s - struct for builtin command arguments.
@@ -82,143 +82,136 @@ typedef struct replacement_variable_list
 typedef struct builtin_s
 {
 	char *name;
-	int (*f)(shell_data_t *data);
+	int (*f)(data_sh *data);
 } builtin_t;
 
 /* Pointer to an array of pointers to strings called the environment */
 extern char **environ;
 
-/* memory_functions.c */
 char **_reallocdp(char **ptr, unsigned int old_size, unsigned int new_size);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void _memcpy(void *newptr, const void *ptr, unsigned int size);
 
-/* lst1.c */
-sep_list_t *add_separator_node_end(sep_list_t **head, char separator);
-command_list_t *add_command(command_list_t **head, char *line);
+
+sep_list_t *add_separator_node_end(sep_list_t **head, char sep);
+cmd_lst_t *add_command(cmd_lst_t **head, char *line);
 void free_sep_list(sep_list_t **head);
-void free_command_list(command_list_t **head);
+void free_command_list(cmd_lst_t **head);
 
-/* lst2.c */
-replacement_variable_t *add_replacement_variable_node(
-	replacement_variable_t **head, int lvar, char *var, int lval);
-void free_replacement_variable_list(replacement_variable_t **head);
 
-/* string_fun.c */
+replace_var_t *add_replacement_variable_node(
+	replace_var_t **head, int lvar, char *var, int lval);
+void free_replacement_variable_list(replace_var_t **head);
+
 int _strcmp(char *s1, char *s2);
 int _strspn(char *s, char *s2);
 char *_strchr(char *s, char c);
 char *_strcpy(char *des, char *src);
 char *_strcat(char *des, const char *src);
 
-/* string_fun1.c */
 int _strlen(const char *s);
 int _isdigit(const char *s);
 int cmp_chars(char str[], const char *delim);
 char *_str_del(char str[], const char *delim);
 char *_strdup(const char *s);
 
-/* string_fun2.c */
 void str_rev(char *s);
 
 int check_first_char(char *input, int *i);
 int check_rep(char *input, int i);
-int check_error_sep_op(char *input, int i, char last);
-int check_for_syntax_errors(shell_data_t *data, char *input);
-void print_syntax_error(shell_data_t *data, char *input, int i, int bool);
+int check_err(char *input, int i, char last);
+int check_syntax_err(data_sh *data, char *input);
+void print_syntax_err(data_sh *data, char *input, int i, int bool);
 
-/* shell_loop.c */
 char *rem_cmnt(char *in);
-void run_shell_loop(shell_data_t *data);
+void run_shell_loop(data_sh *data);
 
 /* split.c */
 char **split_input(char *input);
 char *swap_char(char *input, int bool);
-int split_cmd_op(shell_data_t *data, char *input);
-void des(sep_list_t **head_s, command_list_t **head_l,
+int split_cmd_op(data_sh *data, char *input);
+void des(sep_list_t **head_s, cmd_lst_t **head_l,
 			   char *input);
-void get_next(sep_list_t **list_s, command_list_t **list_l,
-			  shell_data_t *data);
+void get_next(sep_list_t **list_s, cmd_lst_t **list_l,
+			  data_sh *data);
 
-/* replace_var.c */
-char *replace_variable(char *input, shell_data_t *data);
-char *get_replaced_input(replacement_variable_t **head, char *input,
+
+char *replace_var(char *input, data_sh *data);
+char *get_replaced_input(replace_var_t **head, char *input,
 						 char *new_input, int nlen);
-int replace_variables(replacement_variable_t **h, char *in, char *st,
-					  shell_data_t *data);
-void check_for_environment_variables(replacement_variable_t **h, char *in,
-									 shell_data_t *data);
+int replace_vars(replace_var_t **h, char *in, char *st,
+					  data_sh *data);
+void check_for_environment_variables(replace_var_t **h, char *in,
+									 data_sh *data);
 
-/* input_line.c */
+
 ssize_t get_input_line(char **lineptr, size_t *n, FILE *stream);
-void read_input_line_from_buffer(char **lineptr, size_t *n, char *buffer,
+void read_input_line_from_buffer(char **lineptr, size_t *n, char *buff,
 								 size_t j);
 
-/* rd_line.c */
-char *read_input_line(int *i_eof);
 
-/* exec_line */
-int execute_input_line(shell_data_t *data);
+char *read_input_line(int *i_line);
 
-/* exec_cmd.c */
-char *find_command(char *cmd, char **_env);
-int execute_command(shell_data_t *data);
-int is_current_directory(char *path, int *i);
-int is_command_executable(shell_data_t *data);
-int check_for_command_errors(char *dir, shell_data_t *data);
+int execute_input_line(data_sh *data);
 
-/* env.c */
-int print_environment_variables(shell_data_t *data);
+
+char *find_cmd(char *cmd, char **_env);
+int exec_cmmd(data_sh *data);
+int _current_dir(char *path, int *i);
+int cmd_exec(data_sh *data);
+int check_cmd_err(char *dir, data_sh *data);
+
+int print_env_var(data_sh *data);
 char *get_env(const char *name, char **_env);
 
-/* envstdlib.c */
-int _setenv(shell_data_t *data);
-int _unsetenv(shell_data_t *data);
+
+int _setenv(data_sh *data);
+int unset_env(data_sh *data);
 char *copy_info(char *name, char *value);
-void set_env(char *name, char *value, shell_data_t *data);
-int compare_environment_variable_name(const char *nenv, const char *name);
+void set_env(char *name, char *value, data_sh *data);
+int comp_env_varname(const char *nenv, const char *name);
 
-/* chadir.c */
-void change_to_directory(shell_data_t *data);
-void change_to_dot_directory(shell_data_t *data);
-void change_to_home_directory(shell_data_t *data);
-void change_to_previous_directory(shell_data_t *data);
-int change_directory_shell(shell_data_t *data);
 
-/* standard_library.c */
-int get_integer_length(int n);
-int convert_string_to_integer(char *s);
-char *convert_integer_to_string(int n);
+void change_to_dir(data_sh *data);
+void change_to_dot_dir(data_sh *data);
+void change_to_home_dir(data_sh *data);
+void change_to_ols_dir(data_sh *data);
+int change_dir_sh(data_sh *data);
 
-/* error_messages.c */
-char *error_message_get_cd(shell_data_t *data);
-char *error_message_not_found(shell_data_t *data);
-char *error_message_exit_shell(shell_data_t *data);
-char *cd_error_message(shell_data_t *, char *, char *, char *);
 
-/* error_messages1.c */
-char *error_message_env(shell_data_t *data);
-char *error_message_path_126(shell_data_t *data);
+int get_len_int(int n);
+int str_to_int(char *s);
+char *int_to_string(int n);
 
-/* print_help.c */
+
+char *error_message_get_cd(data_sh *data);
+char *error_message_not_found(data_sh *data);
+char *error_message_exit_shell(data_sh *data);
+char *cd_error_message(data_sh *, char *, char *, char *);
+
+
+char *error_message_env(data_sh *data);
+char *error_message_path_126(data_sh *data);
+
+
 void print_help_env(void);
 void print_help_exit(void);
 void print_help_setenv(void);
 void print_help_general(void);
 void print_help_unsetenv(void);
 
-/* print_help1.c */
+
 void print_help(void);
 void print_help_cd(void);
 void print_help_alias(void);
 
-/*builtins.c*/
-void handle_sigint(int sig);
-int get_help(shell_data_t *data);
-int get_error_code(shell_data_t *data, int eval);
-int (*get_builtin_function(char *cmd))(shell_data_t *data);
 
-/* exit_command.c */
-int exit_shell_program(shell_data_t *data);
+void handle_sigint(int sig);
+int get_help(data_sh *data);
+int get_error_code(data_sh *data, int eval);
+int (*get_builtin_fun(char *cmd))(data_sh *data);
+
+
+int exit_shell_program(data_sh *data);
 
 #endif

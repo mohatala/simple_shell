@@ -15,7 +15,7 @@ void handle_sigint(int sig)
  * @data: data structure (args and input)
  * Return: Return 0
 */
-int get_help(shell_data_t *data)
+int get_help(data_sh *data)
 {
 
 	if (data->args[1] == 0)
@@ -48,7 +48,7 @@ int get_help(shell_data_t *data)
  * @eval: error value
  * Return: error
  */
-int get_error_code(shell_data_t *data, int eval)
+int get_error_code(data_sh *data, int eval)
 {
 	char *error;
 
@@ -82,18 +82,18 @@ int get_error_code(shell_data_t *data, int eval)
 }
 
 /**
- * get_builtin_function - builtin that pais the command in the arg
+ * get_builtin_fun - builtin that pais the command in the arg
  * @cmd: command
  * Return: function pointer of the builtin command
  */
-int (*get_builtin_function(char *cmd))(shell_data_t *)
+int (*get_builtin_fun(char *cmd))(data_sh *)
 {
 	builtin_t builtin[] = {
-		{ "env", print_environment_variables },
+		{ "env", print_env_var },
 		{ "exit", exit_shell_program },
 		{ "setenv", _setenv },
-		{ "unsetenv", _unsetenv },
-		{ "cd", change_directory_shell },
+		{ "unsetenv", unset_env },
+		{ "cd", change_dir_sh },
 		{ "help", get_help },
 		{ NULL, NULL }
 	};
@@ -113,7 +113,7 @@ int (*get_builtin_function(char *cmd))(shell_data_t *)
  * @data: data relevant (status and args)
  * Return: 0 on success.
  */
-int exit_shell_program(shell_data_t *data)
+int exit_shell_program(data_sh *data)
 {
 	unsigned int ustatus;
 	int is_digit;
@@ -122,7 +122,7 @@ int exit_shell_program(shell_data_t *data)
 
 	if (data->args[1] != NULL)
 	{
-		ustatus = convert_string_to_integer(data->args[1]);
+		ustatus = str_to_int(data->args[1]);
 		is_digit = _isdigit(data->args[1]);
 		str_len = _strlen(data->args[1]);
 		big_number = ustatus > (unsigned int)INT_MAX;

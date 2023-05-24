@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * is_current_directory - this function checks if :
+ * _current_dir - this function checks if :
  *				is in the current directory.
  * @path: type char pointer char.
  * @i: type int pointer of index.
  * Return: 1 if the path is searchable in the cd, 0 otherwise.
  */
-int is_current_directory(char *path, int *i)
+int _current_dir(char *path, int *i)
 {
 	if (path[*i] == ':')
 		return (1);
@@ -24,12 +24,12 @@ int is_current_directory(char *path, int *i)
 }
 
 /**
- * find_command - this function locates a command
+ * find_cmd - this function locates a command
  * @cmd: command name
  * @_environ: environment variable
  * Return: location of the command.
  */
-char *find_command(char *cmd, char **_environ)
+char *find_cmd(char *cmd, char **_environ)
 {
 	char *path, *ptr_path, *token_path, *dir;
 	int len_dir, len_cmd, i;
@@ -44,7 +44,7 @@ char *find_command(char *cmd, char **_environ)
 		i = 0;
 		while (token_path != NULL)
 		{
-			if (is_current_directory(path, &i))
+			if (_current_dir(path, &i))
 				if (stat(cmd, &st) == 0)
 					return (cmd);
 			len_dir = _strlen(token_path);
@@ -73,11 +73,11 @@ char *find_command(char *cmd, char **_environ)
 }
 
 /**
- * is_command_executable - this function determines if a command is executable
+ * cmd_exec - this function determines if a command is executable
  * @data: data structure
  * Return: 0 if is not an executable, other number if it does
  */
-int is_command_executable(shell_data_t *data)
+int cmd_exec(data_sh *data)
 {
 	struct stat st;
 	int i;
@@ -117,13 +117,13 @@ int is_command_executable(shell_data_t *data)
 }
 
 /**
- * check_for_command_errors - this function verifies if a user
+ * check_cmd_err - this function verifies if a user
  *				has permissions to access
  * @dir: destination directory
  * @data: data structure
  * Return: 1 if there is an error, 0 if not
  */
-int check_for_command_errors(char *dir, shell_data_t *data)
+int check_cmd_err(char *dir, data_sh *data)
 {
 	if (dir == NULL)
 	{
@@ -154,11 +154,11 @@ int check_for_command_errors(char *dir, shell_data_t *data)
 }
 
 /**
- * execute_command - this function executes command lines
+ * exec_cmmd - this function executes command lines
  * @data: data relevant (args and input)
  * Return: 1 on success.
  */
-int execute_command(shell_data_t *data)
+int exec_cmmd(data_sh *data)
 {
 	pid_t pd;
 	pid_t wpd;
@@ -167,13 +167,13 @@ int execute_command(shell_data_t *data)
 	char *dir;
 	(void) wpd;
 
-	exec = is_command_executable(data);
+	exec = cmd_exec(data);
 	if (exec == -1)
 		return (1);
 	if (exec == 0)
 	{
-		dir = find_command(data->args[0], data->_env);
-		if (check_for_command_errors(dir, data) == 1)
+		dir = find_cmd(data->args[0], data->_env);
+		if (check_cmd_err(dir, data) == 1)
 			return (1);
 	}
 
@@ -181,7 +181,7 @@ int execute_command(shell_data_t *data)
 	if (pd == 0)
 	{
 		if (exec == 0)
-			dir = find_command(data->args[0], data->_env);
+			dir = find_cmd(data->args[0], data->_env);
 		else
 			dir = data->args[0];
 		execve(dir + exec, data->args, data->_env);

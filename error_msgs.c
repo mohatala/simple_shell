@@ -9,7 +9,7 @@
  * Return: error message
  */
 char *cd_error_message(
-		shell_data_t *data, char *msg, char *error, char *ver_str)
+		data_sh *data, char *msg, char *error, char *ver_str)
 {
 	char *illegal_flag;
 
@@ -43,12 +43,12 @@ char *cd_error_message(
  * @data: data relevant (directory)
  * Return: Error message
  */
-char *error_message_get_cd(shell_data_t *data)
+char *error_message_get_cd(data_sh *data)
 {
 	int length, len_id;
 	char *error, *ver_str, *msg;
 
-	ver_str = convert_integer_to_string(data->counter);
+	ver_str = int_to_string(data->counter);
 	if (data->args[1][0] == '-')
 	{
 		msg = ": Illegal option ";
@@ -82,13 +82,13 @@ char *error_message_get_cd(shell_data_t *data)
  * @data: data relevant (counter, arguments)
  * Return: Error message
  */
-char *error_message_not_found(shell_data_t *data)
+char *error_message_not_found(data_sh *data)
 {
 	int length;
 	char *error;
 	char *ver_str;
 
-	ver_str = convert_integer_to_string(data->counter);
+	ver_str = int_to_string(data->counter);
 	length = _strlen(data->av[0]) + _strlen(ver_str);
 	length += _strlen(data->args[0]) + 16;
 	error = malloc(sizeof(char) * (length + 1));
@@ -114,13 +114,13 @@ char *error_message_not_found(shell_data_t *data)
  * @data: data relevant (counter, arguments)
  * Return: Error message
  */
-char *error_message_exit_shell(shell_data_t *data)
+char *error_message_exit_shell(data_sh *data)
 {
 	int length;
 	char *error;
 	char *ver_str;
 
-	ver_str = convert_integer_to_string(data->counter);
+	ver_str = int_to_string(data->counter);
 	length = _strlen(data->av[0]) + _strlen(ver_str);
 	length += _strlen(data->args[0]) + _strlen(data->args[1]) + 23;
 	error = malloc(sizeof(char) * (length + 1));

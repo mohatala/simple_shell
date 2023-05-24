@@ -15,12 +15,10 @@ char *get_env(const char *name, char **_env)
 	/* Initialize ptr_env value */
 	ptr_env = NULL;
 	k = 0;
-	/* Compare all environment variables */
-	/* environ is declared in the header file */
+	/* Comparing all environment variables */
 	for (i = 0; _env[i]; i++)
 	{
-		/* If name and env are equal */
-		k = compare_environment_variable_name(_env[i], name);
+		k = comp_env_varname(_env[i], name);
 		if (k)
 		{
 			ptr_env = _env[i];
@@ -32,11 +30,11 @@ char *get_env(const char *name, char **_env)
 }
 
 /**
- * print_environment_variables - prints the evironment variables
+ * print_env_var - prints the evironment variables
  * @data: data relevant.
  * Return: 1 on success.
  */
-int print_environment_variables(shell_data_t *data)
+int print_env_var(data_sh *data)
 {
 	int i, j;
 
@@ -55,18 +53,18 @@ int print_environment_variables(shell_data_t *data)
 }
 
 /**
- * get_integer_length - this function gets the lenght of a number.
+ * get_len_int - this function gets the lenght of a number.
  * @n: type int number.
  * Return: Lenght of a number.
  */
-int get_integer_length(int n)
+int get_len_int(int n)
 {
 	unsigned int n1;
-	int lenght = 1;
+	int len = 1;
 
 	if (n < 0)
 	{
-		lenght++;
+		len++;
 		n1 = n * -1;
 	}
 	else
@@ -75,76 +73,76 @@ int get_integer_length(int n)
 	}
 	while (n1 > 9)
 	{
-		lenght++;
+		len++;
 		n1 = n1 / 10;
 	}
 
-	return (lenght);
+	return (len);
 }
 /**
- * convert_integer_to_string - this function converts int to string.
+ * int_to_string - this function converts int to string.
  * @n: type int number
  * Return: String.
  */
-char *convert_integer_to_string(int n)
+char *int_to_string(int n)
 {
 	unsigned int n1;
-	int lenght = get_integer_length(n);
-	char *buffer;
+	int len = get_len_int(n);
+	char *buff;
 
-	buffer = malloc(sizeof(char) * (lenght + 1));
-	if (buffer == 0)
+	buff = malloc(sizeof(char) * (len + 1));
+	if (buff == 0)
 		return (NULL);
 
-	*(buffer + lenght) = '\0';
+	*(buff + len) = '\0';
 
 	if (n < 0)
 	{
 		n1 = n * -1;
-		buffer[0] = '-';
+		buff[0] = '-';
 	}
 	else
 	{
 		n1 = n;
 	}
 
-	lenght--;
+	len--;
 	do
 	{
-		*(buffer + lenght) = (n1 % 10) + '0';
+		*(buff + len) = (n1 % 10) + '0';
 		n1 = n1 / 10;
-		lenght--;
+		len--;
 	} while (n1 > 0);
-	return (buffer);
+	return (buff);
 }
 
 /**
- * convert_string_to_integer - this function converts a string to an integer.
+ * str_to_int - this function converts a string to an integer.
  * @s: input string.
  * Return: integer.
  */
-int convert_string_to_integer(char *s)
+int str_to_int(char *s)
 {
-	unsigned int count = 0, size = 0, oi = 0, pn = 1, m = 1, i;
+	unsigned int counter = 0, size = 0, oi = 0, pn = 1, m = 1, i;
 
-	while (*(s + count) != '\0')
+	while (*(s + counter) != '\0')
 	{
-		if (size > 0 && (*(s + count) < '0' || *(s + count) > '9'))
+		if (size > 0 && (*(s + counter) < '0' || *(s + counter) > '9'))
 			break;
 
-		if (*(s + count) == '-')
+		if (*(s + counter) == '-')
 			pn *= -1;
 
-		if ((*(s + count) >= '0') && (*(s + count) <= '9'))
+		if ((*(s + counter) >= '0') && (*(s + counter) <= '9'))
 		{
 			if (size > 0)
 				m *= 10;
 			size++;
 		}
-		count++;
+		counter++;
 	}
 
-	for (i = count - size; i < count; i++)
+	for (i = counter - size; i < counter; i++)
 	{
 		oi = oi + ((*(s + i) - 48) * m);
 		m /= 10;

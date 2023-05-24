@@ -8,7 +8,7 @@
  * @data: data structure
  */
 void check_for_environment_variables(
-		replacement_variable_t **h, char *in, shell_data_t *data)
+		replace_var_t **h, char *in, data_sh *data)
 {
 	int row, chr, j, lval;
 	char **_envr = data->_env;
@@ -40,15 +40,15 @@ void check_for_environment_variables(
 }
 
 /**
- * replace_variables - this function checks if the typed variable is $$ or $?
+ * replace_vars - this function checks if the typed variable is $$ or $?
  * @h: head of the linked list
  * @in: input string
  * @st: last status of the Shell
  * @data: data structure
  * Return: returns an integer
  */
-int replace_variables(
-		replacement_variable_t **h, char *in, char *st, shell_data_t *data)
+int replace_vars(
+		replace_var_t **h, char *in, char *st, data_sh *data)
 {
 	int i, lst = _strlen(st), lpd = _strlen(data->pid);
 
@@ -86,10 +86,10 @@ int replace_variables(
  * Return: replaced string
  */
 char *get_replaced_input(
-		replacement_variable_t **head, char *input, char *new_input, int nlen)
+		replace_var_t **head, char *input, char *new_input, int nlen)
 {
 	int i, j, k;
-	replacement_variable_t *indx = *head;
+	replace_var_t *indx = *head;
 
 	for (j = i = 0; i < nlen; i++)
 	{
@@ -128,21 +128,21 @@ char *get_replaced_input(
 }
 
 /**
- * replace_variable - this function calls functions to replace string into vars
+ * replace_var - this function calls functions to replace string into vars
  * @input: input string
  * @data: data structure
  * Return: replaced string
  */
-char *replace_variable(char *input, shell_data_t *data)
+char *replace_var(char *input, data_sh *data)
 {
-	replacement_variable_t *head, *indx;
+	replace_var_t *head, *indx;
 	char *status, *new_input;
 	int olen, nlen;
 
-	status = convert_integer_to_string(data->status);
+	status = int_to_string(data->status);
 	head = NULL;
 
-	olen = replace_variables(&head, input, status, data);
+	olen = replace_vars(&head, input, status, data);
 
 	if (head == NULL)
 	{

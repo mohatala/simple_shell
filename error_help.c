@@ -5,14 +5,14 @@
  * @data: data relevant (counter, arguments)
  * Return: error message.
  */
-char *error_message_env(shell_data_t *data)
+char *error_message_env(data_sh *data)
 {
 	int length;
 	char *error;
 	char *ver_str;
 	char *msg;
 
-	ver_str = convert_integer_to_string(data->counter);
+	ver_str = int_to_string(data->counter);
 	msg = ": Unable to add/remove from environment\n";
 	length = _strlen(data->av[0]) + _strlen(ver_str);
 	length += _strlen(data->args[0]) + _strlen(msg) + 4;
@@ -40,13 +40,13 @@ char *error_message_env(shell_data_t *data)
  * @data: data relevant (counter, arguments).
  * Return: The error string.
  */
-char *error_message_path_126(shell_data_t *data)
+char *error_message_path_126(data_sh *data)
 {
 	int length;
 	char *ver_str;
 	char *error;
 
-	ver_str = convert_integer_to_string(data->counter);
+	ver_str = int_to_string(data->counter);
 	length = _strlen(data->av[0]) + _strlen(ver_str);
 	length += _strlen(data->args[0]) + 24;
 	error = malloc(sizeof(char) * (length + 1));

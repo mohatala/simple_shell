@@ -2,19 +2,19 @@
 
 /**
  * add_replacement_variable_node - adds a variable node at the end of
- *					a replacement_variable_t list.
+ *					a replace_var_t list.
  * @head: pointer to pointer to head node of linked list
  * @lvar: variable length
  * @val: pointer to variable value
  * @lval: value length
  * Return: returns a pointer to the head node
  */
-replacement_variable_t *add_replacement_variable_node(
-		replacement_variable_t **head, int lvar, char *val, int lval)
+replace_var_t *add_replacement_variable_node(
+		replace_var_t **head, int lvar, char *val, int lval)
 {
-	replacement_variable_t *new_node, *temp_node = *head;
+	replace_var_t *new_node, *temp_node = *head;
 
-	new_node = malloc(sizeof(replacement_variable_t));
+	new_node = malloc(sizeof(replace_var_t));
 	if (new_node == NULL)
 		return (NULL);
 
@@ -38,12 +38,12 @@ replacement_variable_t *add_replacement_variable_node(
 
 /**
  * free_replacement_variable_list - this function frees
- *					a replacement_variable_t list
+ *					a replace_var_t list
  * @head: pointer to pointer to head node of linked list
  */
-void free_replacement_variable_list(replacement_variable_t **head)
+void free_replacement_variable_list(replace_var_t **head)
 {
-	replacement_variable_t *temp_node = NULL, *curr_node = *head;
+	replace_var_t *temp_node = NULL, *curr_node = *head;
 
 	if (head == NULL || *head == NULL)
 		return;
