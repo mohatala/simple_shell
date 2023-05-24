@@ -4,7 +4,7 @@
  * change_to_dot_dir - this function changes to the parent directory
  * @data: data relevant (environ)
  */
-void change_to_dot_dir(data_sh *data)
+void change_to_dot_dir(shell_data_t *data)
 {
 	char pwd[PATH_MAX];
 	char *dir, *cp_pwd, *cp_str_del_pwd;
@@ -52,7 +52,7 @@ void change_to_dot_dir(data_sh *data)
  * change_to_dir - this function changes to a directory given by the user
  * @data: data relevant (directories)
  */
-void change_to_dir(data_sh *data)
+void change_to_dir(shell_data_t *data)
 {
 	char pwd[PATH_MAX];
 	char *dir, *cp_pwd, *cp_dir;
@@ -85,7 +85,7 @@ void change_to_dir(data_sh *data)
  *					to the previous directory
  * @data: data relevant (environ)
  */
-void change_to_ols_dir(data_sh *data)
+void change_to_ols_dir(shell_data_t *data)
 {
 	char pwd[PATH_MAX];
 	char *p_pwd, *p_oldpwd, *cp_pwd, *cp_oldpwd;
@@ -125,7 +125,7 @@ void change_to_ols_dir(data_sh *data)
  * change_to_home_dir - this function changes to home directory
  * @data: data relevant (environ)
  */
-void change_to_home_dir(data_sh *data)
+void change_to_home_dir(shell_data_t *data)
 {
 	char *p_pwd, *home;
 	char pwd[PATH_MAX];
@@ -157,14 +157,14 @@ void change_to_home_dir(data_sh *data)
 
 /**
 <<<<<<< HEAD
- * change_dir_sh - this function changes current directory
+ * change_directory_shell - this function changes current directory
 =======
  * change_directory_shell - function changes current directory
 >>>>>>> bf28c91d0f82e4e46907f2aeac0b2b99b4ecdc67
  * @data: data relevant
  * Return: 1 on success
  */
-int change_dir_sh(data_sh *data)
+int change_directory_shell(shell_data_t *data)
 {
 	char *dir;
 	int ishome, ishome2, isddash;

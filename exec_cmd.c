@@ -77,7 +77,7 @@ char *find_cmd(char *cmd, char **_environ)
  * @data: data structure
  * Return: 0 if is not an executable, other number if it does
  */
-int cmd_exec(data_sh *data)
+int cmd_exec(shell_data_t *data)
 {
 	struct stat st;
 	int i;
@@ -123,7 +123,7 @@ int cmd_exec(data_sh *data)
  * @data: data structure
  * Return: 1 if there is an error, 0 if not
  */
-int check_cmd_err(char *dir, data_sh *data)
+int check_cmd_err(char *dir, shell_data_t *data)
 {
 	if (dir == NULL)
 	{
@@ -158,7 +158,7 @@ int check_cmd_err(char *dir, data_sh *data)
  * @data: data relevant (args and input)
  * Return: 1 on success.
  */
-int exec_cmmd(data_sh *data)
+int exec_cmmd(shell_data_t *data)
 {
 	pid_t pd;
 	pid_t wpd;

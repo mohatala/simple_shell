@@ -8,7 +8,7 @@
  * @data: data structure
  */
 void check_for_environment_variables(
-		replace_var_t **h, char *in, data_sh *data)
+		replacement_variable_t **h, char *in, shell_data_t *data)
 {
 	int row, chr, j, lval;
 	char **_envr = data->_env;
@@ -38,7 +38,6 @@ void check_for_environment_variables(
 	}
 	add_replacement_variable_node(h, j, NULL, 0);
 }
-
 /**
  * replace_vars - this function checks if the typed variable is $$ or $?
  * @h: head of the linked list
@@ -47,8 +46,8 @@ void check_for_environment_variables(
  * @data: data structure
  * Return: returns an integer
  */
-int replace_vars(
-		replace_var_t **h, char *in, char *st, data_sh *data)
+int replace_variables(
+		replacement_variable_t **h, char *in, char *st, shell_data_t *data)
 {
 	int i, lst = _strlen(st), lpd = _strlen(data->pid);
 
@@ -86,37 +85,37 @@ int replace_vars(
  * Return: replaced string
  */
 char *get_replaced_input(
-		replace_var_t **head, char *input, char *new_input, int nlen)
+		replacement_variable_t **head, char *input, char *new_input, int nlen)
 {
 	int i, j, k;
-	replace_var_t *indx = *head;
+	replacement_variable_t *index = *head;
 
 	for (j = i = 0; i < nlen; i++)
 	{
 		if (input[j] == '$')
 		{
-			if (!(indx->len_var) && !(indx->len_val))
+			if (!(index->len_var) && !(index->len_val))
 			{
 				new_input[i] = input[j];
 				j++;
 			}
-			else if (indx->len_var && !(indx->len_val))
+			else if (index->len_var && !(index->len_val))
 			{
-				for (k = 0; k < indx->len_var; k++)
+				for (k = 0; k < index->len_var; k++)
 					j++;
 				i--;
 			}
 			else
 			{
-				for (k = 0; k < indx->len_val; k++)
+				for (k = 0; k < index->len_val; k++)
 				{
-					new_input[i] = indx->val[k];
+					new_input[i] = index->val[k];
 					i++;
 				}
-				j += (indx->len_var);
+				j += (index->len_var);
 				i--;
 			}
-			indx = indx->next;
+			index = index->next;
 		}
 		else
 		{
@@ -133,16 +132,16 @@ char *get_replaced_input(
  * @data: data structure
  * Return: replaced string
  */
-char *replace_var(char *input, data_sh *data)
+char *replace_variable(char *input, shell_data_t *datash)
 {
-	replace_var_t *head, *indx;
+	replacement_variable_t *head, *index;
 	char *status, *new_input;
 	int olen, nlen;
 
-	status = int_to_string(data->status);
+	status = int_to_string(datash->status);
 	head = NULL;
 
-	olen = replace_vars(&head, input, status, data);
+	olen = replace_variables(&head, input, status, datash);
 
 	if (head == NULL)
 	{
@@ -150,13 +149,13 @@ char *replace_var(char *input, data_sh *data)
 		return (input);
 	}
 
-	indx = head;
+	index = head;
 	nlen = 0;
 
-	while (indx != NULL)
+	while (index != NULL)
 	{
-		nlen += (indx->len_val - indx->len_var);
-		indx = indx->next;
+		nlen += (index->len_val - index->len_var);
+		index = index->next;
 	}
 
 	nlen += olen;

@@ -98,7 +98,7 @@ int check_first_char(char *input, int *i)
  * @i: index of the error
  * @bool: to control msg error
  */
-void print_syntax_err(data_sh *data, char *input, int i, int bool)
+void print_syntax_err(shell_data_t *data, char *input, int i, int bool)
 {
 	char *msg, *msg2, *msg3, *error, *counter;
 	int length;
@@ -148,7 +148,7 @@ void print_syntax_err(data_sh *data, char *input, int i, int bool)
  * @input: input string
  * Return: 1 if there is an error. 0 in other case
  */
-int check_syntax_err(data_sh *data, char *input)
+int check_syntax_err(shell_data_t *data, char *input)
 {
 	int begin = 0, f_char = 0, error_pos = 0;
 

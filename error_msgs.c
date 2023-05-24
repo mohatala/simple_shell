@@ -9,7 +9,7 @@
  * Return: error message
  */
 char *cd_error_message(
-		data_sh *data, char *msg, char *error, char *ver_str)
+		shell_data_t *data, char *msg, char *error, char *ver_str)
 {
 	char *illegal_flag;
 
@@ -43,7 +43,7 @@ char *cd_error_message(
  * @data: data relevant (directory)
  * Return: Error message
  */
-char *error_message_get_cd(data_sh *data)
+char *error_message_get_cd(shell_data_t *data)
 {
 	int length, len_id;
 	char *error, *ver_str, *msg;
@@ -82,7 +82,7 @@ char *error_message_get_cd(data_sh *data)
  * @data: data relevant (counter, arguments)
  * Return: Error message
  */
-char *error_message_not_found(data_sh *data)
+char *error_message_not_found(shell_data_t *data)
 {
 	int length;
 	char *error;
@@ -114,7 +114,7 @@ char *error_message_not_found(data_sh *data)
  * @data: data relevant (counter, arguments)
  * Return: Error message
  */
-char *error_message_exit_shell(data_sh *data)
+char *error_message_exit_shell(shell_data_t *data)
 {
 	int length;
 	char *error;

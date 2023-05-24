@@ -44,12 +44,12 @@ char *swap_char(char *input, int bool)
 
 /**
  * add_nodes - this function adds separators and cmd lines in the lists
- * @head_s: pointer to head node of sep list
+ * @head_s: pointer to head node of separatorlist
  * @head_l: pointer to head node of command lines list
  * @input: input string
  */
 void add_nodes(
-		sep_list_t **head_s, cmd_lst_t **head_l, char *input)
+		separator_list_t **head_s, command_list_t **head_l, char *input)
 {
 	int i;
 	char *line;
@@ -70,47 +70,46 @@ void add_nodes(
 	while (line != NULL)
 	{
 		line = swap_char(line, 1);
-		add_command(head_l, line);
+		add_command_node_end(head_l, line);
 		line = _str_del(NULL, ";|&");
 	}
 }
 
 /**
  * get_next - this function moves to the next stored command line
- * @list_sep: sep list
+ * @list_sep: separatorlist
  * @list_line: command line list
  * @data: data structure pointer
  */
 void get_next(
-		sep_list_t **list_sep, cmd_lst_t **list_line, data_sh *data)
+		separator_list_t **list_s, command_list_t **list_l, shell_data_t *datash)
 {
 	int loop_sep = 1;
-	sep_list_t *ls_s = *list_sep;
-	cmd_lst_t *ls_l = *list_line;
+	separator_list_t *ls_s = *list_s;
+	command_list_t *ls_l = *list_l;
 
 	while (ls_s != NULL && loop_sep)
 	{
-		if (data->status == 0)
+		if (datash->status == 0)
 		{
-			if (ls_s->sep == '&' || ls_s->sep == ';')
+			if (ls_s->separator == '&' || ls_s->separator == ';')
 				loop_sep = 0;
-			if (ls_s->sep == '|')
+			if (ls_s->separator == '|')
 				ls_l = ls_l->next, ls_s = ls_s->next;
 		}
 		else
 		{
-			if (ls_s->sep == '|' || ls_s->sep == ';')
+			if (ls_s->separator == '|' || ls_s->separator == ';')
 				loop_sep = 0;
-			if (ls_s->sep == '&')
+			if (ls_s->separator == '&')
 				ls_l = ls_l->next, ls_s = ls_s->next;
 		}
 		if (ls_s != NULL && !loop_sep)
 			ls_s = ls_s->next;
 	}
-	*list_sep = ls_s;
-	*list_line = ls_l;
+	*list_s = ls_s;
+	*list_l = ls_l;
 }
-
 /**
  * split_cmd_op - splits command lines according to
  *				the separators ;, | and &, and executes them
@@ -118,11 +117,11 @@ void get_next(
  * @input: input string
  * Return: 0 to exit, 1 to continue
  */
-int split_cmd_op(data_sh *data, char *input)
+int split_cmd_op(shell_data_t *data, char *input)
 {
 	int loop;
-	sep_list_t *list_s, *head_s = NULL;
-	cmd_lst_t *list_l, *head_l = NULL;
+	separator_list_t *list_s, *head_s = NULL;
+	command_list_t *list_l, *head_l = NULL;
 
 	add_nodes(&head_s, &head_l, input);
 
@@ -144,7 +143,7 @@ int split_cmd_op(data_sh *data, char *input)
 		if (list_l != NULL)
 			list_l = list_l->next;
 	}
-	free_sep_list(&head_s);
+	free_separator_list(&head_s);
 	free_command_list(&head_l);
 
 	return ((loop == 0) ? 0 : 1);

@@ -5,7 +5,7 @@
  * @data: data relevant (counter, arguments)
  * Return: error message.
  */
-char *error_message_env(data_sh *data)
+char *error_message_env(shell_data_t *data)
 {
 	int length;
 	char *error;
@@ -40,7 +40,7 @@ char *error_message_env(data_sh *data)
  * @data: data relevant (counter, arguments).
  * Return: The error string.
  */
-char *error_message_path_126(data_sh *data)
+char *error_message_path_126(shell_data_t *data)
 {
 	int length;
 	char *ver_str;

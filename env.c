@@ -1,14 +1,14 @@
 #include "shell.h"
 
 /**
- * comp_env_varname - this function compares
+ * compare_environement_variable_name - this function compares
  *					environment variables names
  * with the name passed.
  * @nenv: name of the environment variable
  * @name: name passed
  * Return: 0 if are not equal. Another value if they are.
  */
-int comp_env_varname(const char *nenv, const char *name)
+int compare_environement_variable_name(const char *nenv, const char *name)
 {
 	int i;
 
@@ -55,7 +55,7 @@ char *copy_info(char *name, char *value)
  * @data: data structure (environ)
  * Return: no return
  */
-void set_env(char *name, char *value, data_sh *data)
+void set_env(char *name, char *value, shell_data_t *data)
 {
 	int i;
 	char *var_env, *name_env;
@@ -85,7 +85,7 @@ void set_env(char *name, char *value, data_sh *data)
  * @data: data relevant (env name and env value)
  * Return: 1 on success.
  */
-int _setenv(data_sh *data)
+int _setenv(shell_data_t *data)
 {
 
 	if (data->args[1] == NULL || data->args[2] == NULL)
@@ -100,11 +100,11 @@ int _setenv(data_sh *data)
 }
 
 /**
- * unset_env - deletes a environment variable
+ * _unsetenv - deletes a environment variable
  * @data: data relevant (env name)
  * Return: 1 on success.
  */
-int unset_env(data_sh *data)
+int _unsetenv(shell_data_t *data)
 {
 	char **realloc_env;
 	char *var_env, *name_env;

@@ -9,8 +9,8 @@
 void _memcpy(void *newptr, const void *ptr, unsigned int size)
 {
 	unsigned int i;
-	char *dest = (char *) newptr;
-	const char *src = (const char *) ptr;
+	char *dest = (char *)newptr;
+	const char *src = (const char *)ptr;
 
 	for (i = 0; i < size; i++)
 		dest[i] = src[i];
@@ -121,7 +121,7 @@ char *rem_cmnt(char *in)
 	for (i = 0, j = 0; in[i] != '\0'; i++)
 	{
 		if (in[i] == '#' && (i == 0 || in[i - 1] == '\n' ||
-					in[i - 1] == ' ' || in[i - 1] == '\t' || in[i - 1] == ';'))
+							 in[i - 1] == ' ' || in[i - 1] == '\t' || in[i - 1] == ';'))
 		{
 			while (in[i] != '\n' && in[i] != '\0')
 				i++;
@@ -141,7 +141,7 @@ char *rem_cmnt(char *in)
  * run_shell_loop - this function runs the shell loop
  * @data: relevant data (av, input, args)
  */
-void run_shell_loop(data_sh *data)
+void run_shell_loop(shell_data_t *data)
 {
 	char *input;
 	int loop = 1, i_eof;
@@ -161,7 +161,7 @@ void run_shell_loop(data_sh *data)
 				data->status = 2;
 				continue;
 			}
-			input = replace_var(input, data);
+			input = replace_variable(input, data);
 			loop = split_cmd_op(data, input);
 			data->counter++;
 		}

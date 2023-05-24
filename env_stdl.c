@@ -18,7 +18,7 @@ char *get_env(const char *name, char **_env)
 	/* Comparing all environment variables */
 	for (i = 0; _env[i]; i++)
 	{
-		k = compare_environment_variable_name(_env[i], name);
+		k = compare_environement_variable_name(_env[i], name);
 		if (k)
 		{
 			ptr_env = _env[i];
@@ -34,7 +34,7 @@ char *get_env(const char *name, char **_env)
  * @data: data relevant.
  * Return: 1 on success.
  */
-int print_env_var(data_sh *data)
+int print_env_var(shell_data_t *data)
 {
 	int i, j;
 

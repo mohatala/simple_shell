@@ -4,7 +4,7 @@
  * free_data - frees data structure
  * @data: data structure
  */
-void free_data(data_sh *data)
+void free_data(shell_data_t *data)
 {
 	unsigned int i;
 
@@ -22,7 +22,7 @@ void free_data(data_sh *data)
  * @data: data structure
  * @av: argument vector
  */
-void set_data(data_sh *data, char **av)
+void set_data(shell_data_t *data, char **av)
 {
 	unsigned int i;
 
@@ -54,7 +54,7 @@ void set_data(data_sh *data, char **av)
  */
 int main(int ac, char **av)
 {
-	data_sh data;
+	shell_data_t data;
 	(void) ac;
 
 	signal(SIGINT, handle_sigint);

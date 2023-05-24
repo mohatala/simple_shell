@@ -104,14 +104,14 @@ char *read_input_line(int *i_eof)
  * @data: data relevant (args)
  * Return: 1 on success.
  */
-int execute_input_line(data_sh *data)
+int execute_input_line(shell_data_t *data)
 {
-	int (*builtin)(data_sh *data);
+	int (*builtin)(shell_data_t *data);
 
 	if (data->args[0] == NULL)
 		return (1);
 
-	builtin = get_builtin_fun(data->args[0]);
+	builtin = get_builtin_function(data->args[0]);
 
 	if (builtin != NULL)
 		return (builtin(data));
