@@ -36,7 +36,7 @@ int _strlen(const char *s)
 /**
  * cmp_chars - this function compares characters of strings
  * @str: input string
- * @del: delimiter
+ * @delim: delimiter
  * Return: 1 if strings are equal and 0 if otherwise
  */
 int cmp_chars(char str[], const char *delim)
@@ -101,7 +101,7 @@ char *_str_del(char str[], const char *del)
 		if (token_founded == 0 && *token_start) /* Str != Delimiter */
 			token_founded = 1;
 	}
-	if (token_founded == 0) 
+	if (token_founded == 0)
 		return (NULL);
 	return (current_char);
 }

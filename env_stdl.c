@@ -18,7 +18,7 @@ char *get_env(const char *name, char **_env)
 	/* Comparing all environment variables */
 	for (i = 0; _env[i]; i++)
 	{
-		k = comp_env_varname(_env[i], name);
+		k = compare_environment_variable_name(_env[i], name);
 		if (k)
 		{
 			ptr_env = _env[i];
@@ -60,11 +60,11 @@ int print_env_var(data_sh *data)
 int get_len_int(int n)
 {
 	unsigned int n1;
-	int len = 1;
+	int lenght = 1;
 
 	if (n < 0)
 	{
-		len++;
+		lenght++;
 		n1 = n * -1;
 	}
 	else
@@ -73,11 +73,11 @@ int get_len_int(int n)
 	}
 	while (n1 > 9)
 	{
-		len++;
+		lenght++;
 		n1 = n1 / 10;
 	}
 
-	return (len);
+	return (lenght);
 }
 /**
  * int_to_string - this function converts int to string.
@@ -87,33 +87,33 @@ int get_len_int(int n)
 char *int_to_string(int n)
 {
 	unsigned int n1;
-	int len = get_len_int(n);
-	char *buff;
+	int lenght = get_len_int(n);
+	char *buffer;
 
-	buff = malloc(sizeof(char) * (len + 1));
-	if (buff == 0)
+	buffer = malloc(sizeof(char) * (lenght + 1));
+	if (buffer == 0)
 		return (NULL);
 
-	*(buff + len) = '\0';
+	*(buffer + lenght) = '\0';
 
 	if (n < 0)
 	{
 		n1 = n * -1;
-		buff[0] = '-';
+		buffer[0] = '-';
 	}
 	else
 	{
 		n1 = n;
 	}
 
-	len--;
+	lenght--;
 	do
 	{
-		*(buff + len) = (n1 % 10) + '0';
+		*(buffer + lenght) = (n1 % 10) + '0';
 		n1 = n1 / 10;
-		len--;
+		lenght--;
 	} while (n1 > 0);
-	return (buff);
+	return (buffer);
 }
 
 /**
@@ -123,26 +123,26 @@ char *int_to_string(int n)
  */
 int str_to_int(char *s)
 {
-	unsigned int counter = 0, size = 0, oi = 0, pn = 1, m = 1, i;
+	unsigned int count = 0, size = 0, oi = 0, pn = 1, m = 1, i;
 
-	while (*(s + counter) != '\0')
+	while (*(s + count) != '\0')
 	{
-		if (size > 0 && (*(s + counter) < '0' || *(s + counter) > '9'))
+		if (size > 0 && (*(s + count) < '0' || *(s + count) > '9'))
 			break;
 
-		if (*(s + counter) == '-')
+		if (*(s + count) == '-')
 			pn *= -1;
 
-		if ((*(s + counter) >= '0') && (*(s + counter) <= '9'))
+		if ((*(s + count) >= '0') && (*(s + count) <= '9'))
 		{
 			if (size > 0)
 				m *= 10;
 			size++;
 		}
-		counter++;
+		count++;
 	}
 
-	for (i = counter - size; i < counter; i++)
+	for (i = count - size; i < count; i++)
 	{
 		oi = oi + ((*(s + i) - 48) * m);
 		m /= 10;

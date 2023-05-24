@@ -16,6 +16,7 @@
 #define TOKEN_BUFFER_SIZE 128
 #define TOKEN_DELIMITER " \t\r\n\a"
 
+
 /**
  * struct shell_data - this struct contains all relevant data on runtime
  * @status: last status of the shell
