@@ -4,7 +4,7 @@
  * add_separator_node_end - this function adds a separator found at the end of
  *				a sep_list_t.
  * @head: pointer to pointer to head node of linked list
- * @sep: separator found (; | &).
+ * @separator: separator found (; | &).
  * Return: returns a pointer to the head node
  */
 sep_list_t *add_separator_node_end(sep_list_t **head, char separator)
