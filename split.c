@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * swap_characters - this function swaps | and & for non-printed chars
+ * swap_char - this function swaps | and & for non-printed chars
  * @input: input string
  * @bool: type of swap
  * Return: returns swapped string
