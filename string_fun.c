@@ -8,20 +8,16 @@
  */
 char *_strcat(char *des, const char *src)
 {
-	/* Find the end of the destination string */
 	char *ptr = des;
 
 	while (*ptr != '\0')
 		ptr++;
-
-	/* Append the source string to the destination string */
 	while (*src != '\0')
 	{
 		*ptr = *src;
 		ptr++;
 		src++;
 	}
-	/* Add a null terminator to the end of the concatenated string */
 	*ptr = '\0';
 
 	return (des);

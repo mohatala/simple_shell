@@ -39,7 +39,7 @@ void check_for_environment_variables(
 	add_replacement_variable_node(h, j, NULL, 0);
 }
 /**
- * replace_vars - this function checks if the typed variable is $$ or $?
+ * replace_variables - this function checks if the typed variable is $$ or $?
  * @h: head of the linked list
  * @in: input string
  * @st: last status of the Shell
@@ -127,7 +127,7 @@ char *get_replaced_input(
 }
 
 /**
- * replace_var - this function calls functions to replace string into vars
+ * replace_variable - this function calls functions to replace string into vars
  * @input: input string
  * @data: data structure
  * Return: replaced string

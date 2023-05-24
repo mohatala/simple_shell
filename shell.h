@@ -131,13 +131,14 @@ int split_cmd_op(shell_data_t *data, char *input);
 void des(separator_list_t **head_s, command_list_t **head_l,
 		 char *input);
 void get_next(
-		separator_list_t **list_s, command_list_t **list_l, shell_data_t *datash);
+	separator_list_t **list_s, command_list_t **list_l, shell_data_t *datash);
 
-char *replace_var(char *input, shell_data_t *data);
+/**replacing varibables*/
+char *replace_variable(char *input, shell_data_t *data);
 char *get_replaced_input(replacement_variable_t **head, char *input,
 						 char *new_input, int nlen);
-int replace_vars(replacement_variable_t **h, char *in, char *st,
-				 shell_data_t *data);
+int replace_variables(replacement_variable_t **h, char *in, char *st,
+					  shell_data_t *data);
 void check_for_environment_variables(replacement_variable_t **h, char *in,
 									 shell_data_t *data);
 
@@ -163,7 +164,6 @@ int _unsetenv(shell_data_t *datash);
 char *copy_info(char *name, char *value);
 void set_env(char *name, char *value, shell_data_t *data);
 int compare_environement_variable_name(const char *nenv, const char *name);
-
 
 void change_to_dir(shell_data_t *data);
 void change_to_dot_dir(shell_data_t *data);
