@@ -101,7 +101,7 @@ char *_str_del(char str[], const char *del)
 		if (token_founded == 0 && *token_start) /* Str != Delimiter */
 			token_founded = 1;
 	}
-	if (token_founded == 0) 
+	if (token_founded == 0)
 		return (NULL);
 	return (current_char);
 }
