@@ -36,7 +36,7 @@ int _strlen(const char *s)
 /**
  * cmp_chars - this function compares characters of strings
  * @str: input string
- * @del: delimiter
+ * @delim: delimiter
  * Return: 1 if strings are equal and 0 if otherwise
  */
 int cmp_chars(char str[], const char *delim)
