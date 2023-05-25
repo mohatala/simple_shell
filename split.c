@@ -77,9 +77,9 @@ void add_nodes(
 
 /**
  * get_next - this function moves to the next stored command line
- * @list_sep: separatorlist
- * @list_line: command line list
- * @data: data structure pointer
+ * @list_s: separatorlist
+ * @list_l: command line list
+ * @datash: data structure pointer
  */
 void get_next(
 		separator_list_t **list_s, command_list_t **list_l, shell_data_t *datash)
