@@ -127,7 +127,7 @@ char *get_replaced_input(
 }
 
 /**
- * *replace_variable - this function calls functions to replace string into vars
+ * *replace_variable - function calls functions to replace string into vars
  * @input: input string
  * @datash: data structure
  * Return: replaced string
