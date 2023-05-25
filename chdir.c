@@ -156,11 +156,7 @@ void change_to_home_dir(shell_data_t *data)
 }
 
 /**
-<<<<<<< HEAD
  * change_directory_shell - this function changes current directory
-=======
- * change_directory_shell - function changes current directory
->>>>>>> bf28c91d0f82e4e46907f2aeac0b2b99b4ecdc67
  * @data: data relevant
  * Return: 1 on success
  */
